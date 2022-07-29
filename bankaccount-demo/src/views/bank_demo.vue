@@ -1,93 +1,80 @@
 <template>
-  <headerTitle />
-    <main class="app">
-      <!-- BALANCE -->
-      <div class="balance">
-        <div>
-          <p class="balance__label">Current balance</p>
-          <p class="balance__date">
-            As of <span class="date">05/03/2037</span>
-          </p>
-        </div>
-        <p class="balance__value">0000€</p>
+  <header-Title />
+  <main class="app">
+    <!-- BALANCE -->
+    <div class="balance">
+      <div>
+        <p class="balance__label">Current balance</p>
+        <p class="balance__date">As of <span class="date">05/03/2037</span></p>
       </div>
+      <p class="balance__value">0000€</p>
+    </div>
+    <data-Left />
+    <function-Right />
+    <!-- SUMMARY -->
+    <div class="summary">
+      <p class="summary__label">In</p>
+      <p class="summary__value summary__value--in">0000€</p>
+      <p class="summary__label">Out</p>
+      <p class="summary__value summary__value--out">0000€</p>
+      <p class="summary__label">Interest</p>
+      <p class="summary__value summary__value--interest">0000€</p>
+      <button class="btn--sort">&downarrow; SORT</button>
+    </div>
 
-      <!-- MOVEMENTS -->
-      <div class="movements">
-        <div class="movements__row">
-          <div class="movements__type movements__type--deposit">2 deposit</div>
-          <div class="movements__date">3 days ago</div>
-          <div class="movements__value">4 000€</div>
-        </div>
-        <div class="movements__row">
-          <div class="movements__type movements__type--withdrawal">
-            1 withdrawal
-          </div>
-          <div class="movements__date">24/01/2037</div>
-          <div class="movements__value">-378€</div>
-        </div>
-      </div>
-
-      <!-- SUMMARY -->
-      <div class="summary">
-        <p class="summary__label">In</p>
-        <p class="summary__value summary__value--in">0000€</p>
-        <p class="summary__label">Out</p>
-        <p class="summary__value summary__value--out">0000€</p>
-        <p class="summary__label">Interest</p>
-        <p class="summary__value summary__value--interest">0000€</p>
-        <button class="btn--sort">&downarrow; SORT</button>
-      </div>
-
-      <!-- OPERATION: TRANSFERS -->
-      <div class="operation operation--transfer">
-        <h2>Transfer money</h2>
-        <form class="form form--transfer">
-          <input type="text" class="form__input form__input--to" />
-          <input type="number" class="form__input form__input--amount" />
-          <button class="form__btn form__btn--transfer">&rarr;</button>
-          <label class="form__label">Transfer to</label>
-          <label class="form__label">Amount</label>
-        </form>
-      </div>
-
-      <!-- OPERATION: LOAN -->
-      <div class="operation operation--loan">
-        <h2>Request loan</h2>
-        <form class="form form--loan">
-          <input type="number" class="form__input form__input--loan-amount" />
-          <button class="form__btn form__btn--loan">&rarr;</button>
-          <label class="form__label form__label--loan">Amount</label>
-        </form>
-      </div>
-
-      <!-- OPERATION: CLOSE -->
-      <div class="operation operation--close">
-        <h2>Close account</h2>
-        <form class="form form--close">
-          <input type="text" class="form__input form__input--user" />
-          <input
-            type="password"
-            maxlength="6"
-            class="form__input form__input--pin"
-          />
-          <button class="form__btn form__btn--close">&rarr;</button>
-          <label class="form__label">Confirm user</label>
-          <label class="form__label">Confirm PIN</label>
-        </form>
-      </div>
-
-      <!-- LOGOUT TIMER -->
-      <p class="logout-timer">
-        You will be logged out in <span class="timer">05:00</span>
-      </p>
-    </main>
+    <!-- LOGOUT TIMER -->
+    <p class="logout-timer">
+      You will be logged out in <span class="timer">05:00</span>
+    </p>
+  </main>
 </template>
 
 <script>
 import headerTitle from "@/components/headerTitle/index.vue";
+import dataLeft from "@/components/dataLeft/index.vue";
+import functionRight from "@/components/functionRight/index.vue";
 export default {
-  components: { headerTitle },
+  components: { headerTitle, dataLeft, functionRight },
+  data() {
+    return {
+      account1: {
+        owner: "Jonas Schmedtmann",
+        movements: [200, 455.23, -306.5, 25000, -642.21, -133.9, 79.97, 1300],
+        interestRate: 1.2, // %
+        pin: 1111,
+        movementsDates: [
+          "2021-11-18T21:31:17.178Z",
+          "2021-12-23T07:42:02.383Z",
+          "2022-01-28T09:15:04.904Z",
+          "2022-04-01T10:17:24.185Z",
+          "2022-05-08T14:11:59.604Z",
+          "2022-07-15T17:01:17.194Z",
+          "2022-07-16T23:36:17.929Z",
+          "2022-07-21T10:51:36.790Z",
+        ],
+        currency: "EUR",
+        locale: "pt-PT", // de-DE
+      },
+      account2: {
+        owner: "Jessica Davis",
+        movements: [5000, 3400, -150, -790, -3210, -1000, 8500, -30],
+        interestRate: 1.5,
+        pin: 2222,
+        movementsDates: [
+          "2019-11-01T13:15:33.035Z",
+          "2019-11-30T09:48:16.867Z",
+          "2019-12-25T06:04:23.907Z",
+          "2020-01-25T14:18:46.235Z",
+          "2020-02-05T16:33:06.386Z",
+          "2020-04-10T14:43:26.374Z",
+          "2020-06-25T18:49:59.371Z",
+          "2020-07-26T12:01:20.894Z",
+        ],
+        currency: "USD",
+        locale: "en-US",
+      },
+    };
+  },
 };
 </script>
 <style lang="scss" scoped>
@@ -128,51 +115,6 @@ export default {
   font-weight: 400;
 }
 
-/* MOVEMENTS */
-.movements {
-  grid-row: 2 / span 3;
-  background-color: #fff;
-  border-radius: 1rem;
-  overflow: scroll;
-}
-
-.movements__row {
-  padding: 2.25rem 4rem;
-  display: flex;
-  align-items: center;
-  border-bottom: 1px solid #eee;
-}
-
-.movements__type {
-  font-size: 1.1rem;
-  text-transform: uppercase;
-  font-weight: 500;
-  color: #fff;
-  padding: 0.1rem 1rem;
-  border-radius: 10rem;
-  margin-right: 2rem;
-}
-
-.movements__date {
-  font-size: 1.1rem;
-  text-transform: uppercase;
-  font-weight: 500;
-  color: #666;
-}
-
-.movements__type--deposit {
-  background-image: linear-gradient(to top left, #39b385, #9be15d);
-}
-
-.movements__type--withdrawal {
-  background-image: linear-gradient(to top left, #e52a5a, #ff585f);
-}
-
-.movements__value {
-  font-size: 1.7rem;
-  margin-left: auto;
-}
-
 /* SUMMARY */
 .summary {
   grid-row: 5 / 6;
@@ -210,39 +152,6 @@ export default {
   font-size: 1.3rem;
   font-weight: 500;
   cursor: pointer;
-}
-
-/* OPERATIONS */
-.operation {
-  border-radius: 1rem;
-  padding: 3rem 4rem;
-  color: #333;
-}
-
-.operation--transfer {
-  background-image: linear-gradient(to top left, #ffb003, #ffcb03);
-}
-
-.operation--loan {
-  background-image: linear-gradient(to top left, #39b385, #9be15d);
-}
-
-.operation--close {
-  background-image: linear-gradient(to top left, #e52a5a, #ff585f);
-}
-
-h2 {
-  margin-bottom: 1.5rem;
-  font-size: 1.7rem;
-  font-weight: 600;
-  color: #333;
-}
-
-.form {
-  display: grid;
-  grid-template-columns: 2.5fr 2.5fr 1fr;
-  grid-template-rows: auto auto;
-  gap: 0.4rem 1rem;
 }
 
 /* Exceptions for interst */
